@@ -1,5 +1,9 @@
-import React from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Icon, Input, Button, message } from 'antd';
+import $ from 'jquery';
+import {API_ROOT} from "../constants"
+
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
@@ -8,6 +12,20 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                $.ajax({
+                    url: `${API_ROOT}/login`,
+                    method: 'POST',
+                    data: JSON.stringify({
+                        username: values.username,
+                        password: values.password,
+                    }),
+                }).then((response) => {
+                    message.success(response)
+                }, (response) => {
+                    message.error(response.responseText)
+                }).catch((err) => {
+                    console.log(err)
+                });
             }
         });
     }
@@ -16,7 +34,7 @@ class NormalLoginForm extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('userName', {
+                    {getFieldDecorator('username', {
                         rules: [{ required: true, message: 'Please input your username!' }],
                     })(
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
@@ -33,7 +51,7 @@ class NormalLoginForm extends React.Component {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <a href="">register now!</a>
+                    Or <Link to="/register" href="">register now!</Link>
                 </FormItem>
             </Form>
         );

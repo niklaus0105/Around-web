@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
 import { API_ROOT } from "../constants";
 import { Form, Input, Button, message } from 'antd';
 
@@ -24,6 +25,8 @@ class RegistrationForm extends React.Component {
                     })
                 }).then((response) => {
                    message.success(response);
+                   // direct to login page on register successfully
+                   this.props.history.push('/login');
                 }, (response) => {
                     message.error(response.responseText);
                 }).catch((error) => {
@@ -120,6 +123,7 @@ class RegistrationForm extends React.Component {
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
+                    <p>I already have an account, go back to <Link to="login">Login</Link></p>
                 </FormItem>
             </Form>
         );
