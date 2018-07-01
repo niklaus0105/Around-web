@@ -4,6 +4,6 @@ export const TOKEN_KEY = 'TOKEN_KEY';
 
 export const GEO_OPTIONS = {
     enableHighAccuracy: true,
-    maximumAge        : 30000,
+    maximumAge        : 3600000,
     timeout           : 27000
 };
