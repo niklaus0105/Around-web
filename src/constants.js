@@ -5,8 +5,8 @@ export const TOKEN_KEY = 'TOKEN_KEY';
 
 export const GEO_OPTIONS = {
     enableHighAccuracy: true,
-    maximumAge        : 3600000,
-    timeout           : 27000
+    maximumAge        : 3600000,  // time required to reload the geo location
+    timeout           : 27000 // time allowed to load before failure
 };
 
 export const POS_KEY = 'POS_KEY';
