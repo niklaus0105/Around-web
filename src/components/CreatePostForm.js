@@ -4,6 +4,18 @@ import { Form, Input, Upload, Icon } from 'antd';
 const FormItem = Form.Item;
 
 class CreatePostForm extends React.Component{
+    normFile = (e) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    }
+
+    beforeUpload = () => {
+        return false;
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -32,7 +44,7 @@ class CreatePostForm extends React.Component{
                             valuePropName: 'fileList',
                             getValueFromEvent: this.normFile,
                         })(
-                            <Upload.Dragger name="files" action="/upload.do">
+                            <Upload.Dragger name="files" beforeUpload={this.beforeUpload}>
                                 <p className="ant-upload-drag-icon">
                                     <Icon type="inbox" />
                                 </p>
