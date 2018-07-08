@@ -1,16 +1,19 @@
 import React from 'react'
 import $ from 'jquery';
-import { Tabs, Button, Spin } from 'antd';
+import { Tabs, Spin } from 'antd';
 import { GEO_OPTIONS, POS_KEY, API_ROOT, AUTH_PREFIX, TOKEN_KEY } from '../constants';
+import { Gallery } from "./Gallery";
+import { CreatePostButton } from "./CreatePostButton"
 
 const TabPane = Tabs.TabPane;
-const operations = <Button type="primary">Create New Post</Button>;
+
 
 export class Home extends React.Component {
     state = {
         loadingGeoLocation: false,
         loadingPosts: false,
         error: '',
+        posts: [],
     }
 
     componentDidMount() {
@@ -53,7 +56,7 @@ export class Home extends React.Component {
                 Authorization: `${AUTH_PREFIX} ${localStorage.getItem(TOKEN_KEY)}`
             },
         }).then((response) => {
-            this.setState( { loadingPosts: false, error: '' } );
+            this.setState( { loadingPosts: false, error: '', posts: response } );
             console.log(response);
         }, (response) => {
             this.setState( { loadingPosts: false, error: response.responseText } );
@@ -69,14 +72,30 @@ export class Home extends React.Component {
             return <Spin tip="Loading geo location..."></Spin>;
         } else if (this.state.loadingPosts) {
             return <Spin tip="Loading posts..."></Spin>;
-        }else {
-            return null
+        } else if (this.state.posts && this.state.posts.length > 0){
+            // map function
+            // [1,2,3].map(f)  --->  [f(1),f(2),f(3)]
+            const images = this.state.posts.map((post) => {
+                return {
+                    user: post.user,
+                    src: post.url,
+                    thumbnail: post.url,
+                    caption: post.message,
+                    thumbnailWidth: 400,
+                    thumbnailHeight: 300,
+                };
+            });
+            return <Gallery images={images}/>;
         }
+        return null;
     }
 
+
+
     render() {
+        const createPostButton = <CreatePostButton/>;
         return (
-            <Tabs className="main-tabs" tabBarExtraContent={operations}>
+            <Tabs className="main-tabs" tabBarExtraContent={createPostButton}>
                 <TabPane tab="Posts" key="1">{this.getGalleryPanelContent()}</TabPane>
                 <TabPane tab="Map" key="2">Map</TabPane>
             </Tabs>
