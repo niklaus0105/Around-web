@@ -59,4 +59,9 @@ class CreatePostForm extends React.Component{
     }
 }
 
+/*
+   WrappedCreatePostForm
+   - <CreatePostForm prop={}>
+ */
+// "Form.create()" ==> enhanced form, automatically validating, has a 'prop' = form = WrappedCreatePostForm component
 export const WrappedCreatePostForm = Form.create()(CreatePostForm);
