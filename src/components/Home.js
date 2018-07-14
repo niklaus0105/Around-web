@@ -104,6 +104,7 @@ export class Home extends React.Component {
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `600px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
+                        posts={this.state.posts}
                     />
                 </TabPane>
             </Tabs>
